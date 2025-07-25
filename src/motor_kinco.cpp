@@ -151,6 +151,8 @@ bool MotorKinco::SendCommand(const std::vector<uint8_t> &data) {
 
   try {
     std::lock_guard<std::mutex> lock(mutex_);
+
+    printData(data, "Send");
     serial_port_->write(data);
   } catch (const std::exception &e) {
     RCLCPP_ERROR(kLoggerMotorKinco, "Failed to send command: %s", e.what());
@@ -176,7 +178,6 @@ void MotorKinco::ReadThread() {
         }
         buffer.assign(tmp.begin(), tmp.end());
         printData(buffer, "Received");
-        serial_port_->flush();
 
         sdo_frame_t frame;
         if (sdo_frame_t::parse(buffer.data(), frame)) {
