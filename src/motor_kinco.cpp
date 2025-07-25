@@ -217,11 +217,8 @@ void MotorKinco::ReadThread() {
 bool MotorKinco::receiveData(sdo_frame_t &frame) {
   std::vector<uint8_t> buffer(10);
   if (serial_port_->available() >= 10) {
-    auto tmp = serial_port_->readline();
-    if (tmp.empty()) {
-      return false;
-    }
-    buffer.assign(tmp.begin(), tmp.end());
+    serial_port_->read(buffer.data(), 10);
+    printData(buffer, "Received");
     if (sdo_frame_t::parse(buffer.data(), frame)) {
       RCLCPP_DEBUG(kLoggerMotorKinco,
                    "Received frame[%02X]: %02X %02X %02X %02X %02X %02X %02X",
@@ -261,23 +258,10 @@ void MotorKinco::StateThread() {
     // Polling state of the motor by SDO
     // Position
     SetValue(LEFT_MOTOR, READ, 0x6064, 0x00, 0x00000000);
-    if (receiveData(frame)) {
-      RCLCPP_INFO(kLoggerMotorKinco,
-                  "Received frame[%02X]: %02X %02X %02X %02X %02X %02X %02X",
-                  frame.id & 0xFF, (frame.index >> 8) & 0xFF,
-                  frame.index & 0xFF, frame.subindex & 0xFF, frame.data & 0xFF,
-                  (frame.data >> 8) & 0xFF, (frame.data >> 16) & 0xFF,
-                  (frame.data >> 24) & 0xFF);
-    }
+    receiveData(frame);
+
     SetValue(RIGHT_MOTOR, READ, 0x6064, 0x00, 0x00000000);
-    if (receiveData(frame)) {
-      RCLCPP_INFO(kLoggerMotorKinco,
-                  "Received frame[%02X]: %02X %02X %02X %02X %02X %02X %02X",
-                  frame.id & 0xFF, (frame.index >> 8) & 0xFF,
-                  frame.index & 0xFF, frame.subindex & 0xFF, frame.data & 0xFF,
-                  (frame.data >> 8) & 0xFF, (frame.data >> 16) & 0xFF,
-                  (frame.data >> 24) & 0xFF);
-    }
+    receiveData(frame);
 
     // // State
     // SetValue(LEFT_MOTOR, READ, 0x6041, 0x00, 0x00000000);
@@ -288,23 +272,10 @@ void MotorKinco::StateThread() {
 
     // Set velocity
     SetValue(LEFT_MOTOR, WRITE_4, 0x60FF, 0x00, (left_velocity_ & 0xFFFF));
-    if (receiveData(frame)) {
-      RCLCPP_INFO(kLoggerMotorKinco,
-                  "Received frame[%02X]: %02X %02X %02X %02X %02X %02X %02X",
-                  frame.id & 0xFF, (frame.index >> 8) & 0xFF,
-                  frame.index & 0xFF, frame.subindex & 0xFF, frame.data & 0xFF,
-                  (frame.data >> 8) & 0xFF, (frame.data >> 16) & 0xFF,
-                  (frame.data >> 24) & 0xFF);
-    }
+    receiveData(frame);
+
     SetValue(RIGHT_MOTOR, WRITE_4, 0x60FF, 0x00, (right_velocity_ & 0xFFFF));
-    if (receiveData(frame)) {
-      RCLCPP_INFO(kLoggerMotorKinco,
-                  "Received frame[%02X]: %02X %02X %02X %02X %02X %02X %02X",
-                  frame.id & 0xFF, (frame.index >> 8) & 0xFF,
-                  frame.index & 0xFF, frame.subindex & 0xFF, frame.data & 0xFF,
-                  (frame.data >> 8) & 0xFF, (frame.data >> 16) & 0xFF,
-                  (frame.data >> 24) & 0xFF);
-    }
+    receiveData(frame);
 
     // LogObjectDictionary();
 
