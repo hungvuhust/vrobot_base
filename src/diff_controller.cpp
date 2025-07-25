@@ -125,6 +125,7 @@ void DiffController::publishOdometry() {
 
   // Publish the odometry message
   odometry_publisher_->publish(odom_msg);
+  motor_kinco_->LogObjectDictionary();
   publishVelocityDebug();
 }
 
