@@ -176,6 +176,7 @@ void MotorKinco::ReadThread() {
         }
         buffer.assign(tmp.begin(), tmp.end());
         printData(buffer, "Received");
+        serial_port_->flush();
 
         sdo_frame_t frame;
         if (sdo_frame_t::parse(buffer.data(), frame)) {
