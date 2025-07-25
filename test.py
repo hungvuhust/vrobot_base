@@ -20,12 +20,12 @@ def cksum(data: list[int]) -> int:
     return -cksum & 0xFF
 
 
-while True:
+# while True:
 
-    send_data = [0x01, 0x40, 0x40, 0x60, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
-    send_data[8] = cksum(send_data)
-    ser.write(send_data)
+send_data = [0x01, 0x40, 0x40, 0x60, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+send_data[9] = cksum(send_data)
+ser.write(send_data)
 
-    data = ser.read(10)
+data = ser.read(10)
 
-    print(data)
+print(data)
