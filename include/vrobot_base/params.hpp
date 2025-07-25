@@ -7,6 +7,7 @@
 #include <iostream>
 #include <map>
 #include <mutex>
+#include <shared_mutex>
 #include <string>
 #include <vector>
 
@@ -101,13 +102,13 @@ public:
   using Key = std::pair<uint16_t, uint8_t>; // index, subindex
 
   void update(uint16_t index, uint8_t subindex, uint32_t value) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     od_[{index, subindex}] = value;
   }
 
   bool get(uint16_t index, uint8_t subindex, uint32_t &out_value) const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    auto                        it = od_.find({index, subindex});
+    std::shared_lock<std::shared_mutex> lock(mutex_);
+    auto                                it = od_.find({index, subindex});
     if (it != od_.end()) {
       out_value = it->second;
       return true;
@@ -116,7 +117,7 @@ public:
   }
 
   void print(const std::string &name) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     std::cout << "📦 Object Dictionary[" << name << "]:" << std::endl;
     for (const auto &[key, val] : od_) {
       std::cout << "  0x" << std::hex << std::setw(4) << std::setfill('0')
@@ -127,6 +128,6 @@ public:
   }
 
 private:
-  std::map<Key, uint32_t> od_;
-  mutable std::mutex      mutex_;
+  std::map<Key, uint32_t>   od_;
+  mutable std::shared_mutex mutex_;
 };
