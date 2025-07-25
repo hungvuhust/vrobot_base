@@ -165,6 +165,8 @@ void MotorKinco::ReadThread() {
       std::vector<uint8_t> buffer(10);
       serial_port_->read(buffer.data(), buffer.size());
 
+      printData(buffer, "Received");
+
       sdo_frame_t frame;
       if (sdo_frame_t::parse(buffer.data(), frame)) {
         RCLCPP_INFO(kLoggerMotorKinco,
