@@ -165,41 +165,45 @@ void MotorKinco::ReadThread() {
       RCLCPP_ERROR(kLoggerMotorKinco, "Motor is not connected");
       return;
     }
-    std::lock_guard<std::mutex> lock(mutex_);
-    if (serial_port_->available() >= 10) {
-      std::vector<uint8_t> buffer(10);
+    std::vector<uint8_t> buffer(10);
 
-      serial_port_->read(buffer.data(), 10);
+    {
+      std::lock_guard<std::mutex> lock(mutex_);
+      if (serial_port_->available() >= 10) {
 
-      printData(buffer, "Received");
-
-      sdo_frame_t frame;
-      if (sdo_frame_t::parse(buffer.data(), frame)) {
-        RCLCPP_DEBUG(kLoggerMotorKinco,
-                     "Received frame[%02X]: %02X %02X %02X %02X %02X %02X %02X",
-                     frame.id & 0xFF, (frame.index >> 8) & 0xFF,
-                     frame.index & 0xFF, frame.subindex & 0xFF,
-                     frame.data & 0xFF, (frame.data >> 8) & 0xFF,
-                     (frame.data >> 16) & 0xFF, (frame.data >> 24) & 0xFF);
-        if (frame.cmd != 0x80) {
-          if (frame.id == 0x01) {
-            od_left_.update(frame.index, frame.subindex, frame.data);
-          } else if (frame.id == 0x02) {
-            od_right_.update(frame.index, frame.subindex, frame.data);
-          }
-        } else {
-          RCLCPP_ERROR(kLoggerMotorKinco,
-                       "ERROR[%02X]: %02X %02X %02X %02X %02X %02X %02X",
-                       frame.id & 0xFF, // ID
-                       (frame.index >> 8) & 0xFF, frame.index & 0xFF,
-                       frame.subindex & 0xFF, frame.data & 0xFF,
-                       (frame.data >> 8) & 0xFF, (frame.data >> 16) & 0xFF,
-                       (frame.data >> 24) & 0xFF);
-        }
-      } else {
-        RCLCPP_ERROR(kLoggerMotorKinco, "Failed to parse frame");
+        serial_port_->read(buffer.data(), 10);
       }
     }
+
+    printData(buffer, "Received");
+
+    sdo_frame_t frame;
+    if (sdo_frame_t::parse(buffer.data(), frame)) {
+      RCLCPP_DEBUG(kLoggerMotorKinco,
+                   "Received frame[%02X]: %02X %02X %02X %02X %02X %02X %02X",
+                   frame.id & 0xFF, (frame.index >> 8) & 0xFF,
+                   frame.index & 0xFF, frame.subindex & 0xFF, frame.data & 0xFF,
+                   (frame.data >> 8) & 0xFF, (frame.data >> 16) & 0xFF,
+                   (frame.data >> 24) & 0xFF);
+      if (frame.cmd != 0x80) {
+        if (frame.id == 0x01) {
+          od_left_.update(frame.index, frame.subindex, frame.data);
+        } else if (frame.id == 0x02) {
+          od_right_.update(frame.index, frame.subindex, frame.data);
+        }
+      } else {
+        RCLCPP_ERROR(kLoggerMotorKinco,
+                     "ERROR[%02X]: %02X %02X %02X %02X %02X %02X %02X",
+                     frame.id & 0xFF, // ID
+                     (frame.index >> 8) & 0xFF, frame.index & 0xFF,
+                     frame.subindex & 0xFF, frame.data & 0xFF,
+                     (frame.data >> 8) & 0xFF, (frame.data >> 16) & 0xFF,
+                     (frame.data >> 24) & 0xFF);
+      }
+    } else {
+      RCLCPP_ERROR(kLoggerMotorKinco, "Failed to parse frame");
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
   }
 }
 
