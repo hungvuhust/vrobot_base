@@ -51,6 +51,8 @@ private:
   void    printData(const std::vector<uint8_t> &data, std::string prefix = "");
   uint8_t CalculateChecksum(const std::vector<uint8_t> &data);
 
+  bool receiveData(sdo_frame_t &frame);
+
 private:
   // Serial port settings
   serial::Timeout                 timeout_;
