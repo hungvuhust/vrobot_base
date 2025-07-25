@@ -211,7 +211,7 @@ void MotorKinco::StateThread() {
   while (is_active_) {
     if (!is_connected_) {
       RCLCPP_ERROR(kLoggerMotorKinco, "Motor is not connected");
-      return;
+      continue;
     }
 
     // Polling state of the motor by SDO
