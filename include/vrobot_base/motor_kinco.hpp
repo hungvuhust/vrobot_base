@@ -36,6 +36,8 @@ public:
   bool GetMode(uint8_t &mode_left, uint8_t &mode_right);
   bool GetState(uint8_t &state_left, uint8_t &state_right);
 
+  void LogObjectDictionary();
+
   bool IsReady() const { return is_connected_ && is_active_; }
   void StopMotor();
 

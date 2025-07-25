@@ -175,16 +175,16 @@ void MotorKinco::ReadThread() {
         serial_port_->read(buffer.data(), 10);
       }
 
-      printData(buffer, "Received");
+      // printData(buffer, "Received");
 
       sdo_frame_t frame;
       if (sdo_frame_t::parse(buffer.data(), frame)) {
-        RCLCPP_INFO(kLoggerMotorKinco,
-                    "Received frame[%02X]: %02X %02X %02X %02X %02X %02X %02X",
-                    frame.id & 0xFF, (frame.index >> 8) & 0xFF,
-                    frame.index & 0xFF, frame.subindex & 0xFF,
-                    frame.data & 0xFF, (frame.data >> 8) & 0xFF,
-                    (frame.data >> 16) & 0xFF, (frame.data >> 24) & 0xFF);
+        RCLCPP_DEBUG(kLoggerMotorKinco,
+                     "Received frame[%02X]: %02X %02X %02X %02X %02X %02X %02X",
+                     frame.id & 0xFF, (frame.index >> 8) & 0xFF,
+                     frame.index & 0xFF, frame.subindex & 0xFF,
+                     frame.data & 0xFF, (frame.data >> 8) & 0xFF,
+                     (frame.data >> 16) & 0xFF, (frame.data >> 24) & 0xFF);
         if (frame.cmd != 0x80) {
           if (frame.id == 0x01) {
             od_left_.update(frame.index, frame.subindex, frame.data);
@@ -304,4 +304,10 @@ uint8_t MotorKinco::CalculateChecksum(const std::vector<uint8_t> &data) {
   }
   return static_cast<uint8_t>(-sum);
 }
+
+void MotorKinco::LogObjectDictionary() {
+  od_left_.print();
+  od_right_.print();
+}
+
 } // namespace vrobot_base
