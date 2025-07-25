@@ -170,7 +170,11 @@ void MotorKinco::ReadThread() {
     {
       std::lock_guard<std::mutex> lock(mutex_);
       while (serial_port_->available() >= 10) {
-        serial_port_->read(buffer.data(), 10);
+        auto tmp = serial_port_->readline();
+        if (tmp.empty()) {
+          continue;
+        }
+        buffer.assign(tmp.begin(), tmp.end());
         printData(buffer, "Received");
 
         sdo_frame_t frame;
