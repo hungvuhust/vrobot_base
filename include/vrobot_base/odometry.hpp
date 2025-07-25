@@ -2,22 +2,23 @@
 #define DIFF_DRIVE_CONTROLLER__ODOMETRY_HPP_
 
 #include "rclcpp/time.hpp"
-// \note The versions conditioning is added here to support the source-compatibility with Humble
+// \note The versions conditioning is added here to support the
+// source-compatibility with Humble
 #if RCPPUTILS_VERSION_MAJOR >= 2 && RCPPUTILS_VERSION_MINOR >= 6
 #include "rcpputils/rolling_mean_accumulator.hpp"
 #else
 #include "rcppmath/rolling_mean_accumulator.hpp"
 #endif
 
-class OdometryVrobot
-{
+class OdometryVrobot {
 public:
   explicit OdometryVrobot(size_t velocity_rolling_window_size = 10);
 
-  void init(const rclcpp::Time & time);
-  bool update(double left_pos, double right_pos, const rclcpp::Time & time);
-  bool updateFromVelocity(double left_vel, double right_vel, const rclcpp::Time & time);
-  void updateOpenLoop(double linear, double angular, const rclcpp::Time & time);
+  void init(const rclcpp::Time &time);
+  bool update(double left_pos, double right_pos, const rclcpp::Time &time);
+  bool updateFromVelocity(double left_vel, double right_vel,
+                          const rclcpp::Time &time);
+  void updateOpenLoop(double linear, double angular, const rclcpp::Time &time);
   void resetOdometry();
 
   double getX() const { return x_; }
@@ -26,11 +27,13 @@ public:
   double getLinear() const { return linear_; }
   double getAngular() const { return angular_; }
 
-  void setWheelParams(double wheel_separation, double left_wheel_radius, double right_wheel_radius);
+  void setWheelParams(double wheel_separation, double left_wheel_radius,
+                      double right_wheel_radius);
   void setVelocityRollingWindowSize(size_t velocity_rolling_window_size);
 
 private:
-// \note The versions conditioning is added here to support the source-compatibility with Humble
+// \note The versions conditioning is added here to support the
+// source-compatibility with Humble
 #if RCPPUTILS_VERSION_MAJOR >= 2 && RCPPUTILS_VERSION_MINOR >= 6
   using RollingMeanAccumulator = rcpputils::RollingMeanAccumulator<double>;
 #else
@@ -45,13 +48,13 @@ private:
   rclcpp::Time timestamp_;
 
   // Current pose:
-  double x_;        //   [m]
-  double y_;        //   [m]
-  double heading_;  // [rad]
+  double x_;       //   [m]
+  double y_;       //   [m]
+  double heading_; // [rad]
 
   // Current velocity:
-  double linear_;   //   [m/s]
-  double angular_;  // [rad/s]
+  double linear_;  //   [m/s]
+  double angular_; // [rad/s]
 
   // Wheel kinematic parameters [m]:
   double wheel_separation_;
@@ -61,13 +64,14 @@ private:
   // Previous wheel position/state [rad]:
   double left_wheel_old_pos_;
   double right_wheel_old_pos_;
+  double offset_left_{0.0};
+  double offset_right_{0.0};
+  bool   is_offset_set_{false};
 
   // Rolling mean accumulators for the linear and angular velocities:
-  size_t velocity_rolling_window_size_;
+  size_t                 velocity_rolling_window_size_;
   RollingMeanAccumulator linear_accumulator_;
   RollingMeanAccumulator angular_accumulator_;
-  
 };
 
-
-#endif  // DIFF_DRIVE_CONTROLLER__ODOMETRY_HPP_
+#endif // DIFF_DRIVE_CONTROLLER__ODOMETRY_HPP_
