@@ -115,9 +115,9 @@ public:
     return false;
   }
 
-  void print() const {
+  void print(const std::string &name) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::cout << "📦 Object Dictionary:" << std::endl;
+    std::cout << "📦 Object Dictionary[" << name << "]:" << std::endl;
     for (const auto &[key, val] : od_) {
       std::cout << "  0x" << std::hex << std::setw(4) << std::setfill('0')
                 << key.first << ":" << std::setw(2) << std::setfill('0')

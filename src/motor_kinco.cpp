@@ -306,9 +306,8 @@ uint8_t MotorKinco::CalculateChecksum(const std::vector<uint8_t> &data) {
 }
 
 void MotorKinco::LogObjectDictionary() {
-  RCLCPP_INFO(kLoggerMotorKinco, "============Object Dictionary============");
-  od_left_.print();
-  od_right_.print();
+  od_left_.print("Left Motor");
+  od_right_.print("Right Motor");
 }
 
 } // namespace vrobot_base
