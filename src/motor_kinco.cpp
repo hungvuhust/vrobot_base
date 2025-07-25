@@ -108,7 +108,11 @@ bool MotorKinco::SetValue(uint8_t motor_id, uint8_t cmd, uint16_t index,
   frame.data                 = value;
   auto                 bytes = frame.toBytes();
   std::vector<uint8_t> command(bytes.begin(), bytes.end());
-  return SendCommand(command);
+  if (!SendCommand(command)) {
+    RCLCPP_ERROR(kLoggerMotorKinco, "Failed to send command");
+    return false;
+  }
+  return receiveData();
 }
 
 bool MotorKinco::GetPosition(int32_t &left_position, int32_t &right_position) {
@@ -214,7 +218,8 @@ void MotorKinco::ReadThread() {
   }
 }
 
-bool MotorKinco::receiveData(sdo_frame_t &frame) {
+bool MotorKinco::receiveData() {
+  sdo_frame_t          frame;
   std::vector<uint8_t> buffer(10);
   if (serial_port_) {
     serial_port_->read(buffer.data(), 10);
@@ -254,29 +259,22 @@ void MotorKinco::StateThread() {
       RCLCPP_ERROR(kLoggerMotorKinco, "Motor is not connected");
       continue;
     }
-    sdo_frame_t frame;
 
     // Polling state of the motor by SDO
     // Position
     SetValue(LEFT_MOTOR, READ, 0x6064, 0x00, 0x00000000);
-    receiveData(frame);
-
     SetValue(RIGHT_MOTOR, READ, 0x6064, 0x00, 0x00000000);
-    receiveData(frame);
 
-    // // State
-    // SetValue(LEFT_MOTOR, READ, 0x6041, 0x00, 0x00000000);
-    // SetValue(RIGHT_MOTOR, READ, 0x6041, 0x00, 0x00000000);
-    // // Operation mode
-    // SetValue(LEFT_MOTOR, READ, 0x6061, 0x00, 0x00000000);
-    // SetValue(RIGHT_MOTOR, READ, 0x6061, 0x00, 0x00000000);
+    // State
+    SetValue(LEFT_MOTOR, READ, 0x6041, 0x00, 0x00000000);
+    SetValue(RIGHT_MOTOR, READ, 0x6041, 0x00, 0x00000000);
+    // Operation mode
+    SetValue(LEFT_MOTOR, READ, 0x6061, 0x00, 0x00000000);
+    SetValue(RIGHT_MOTOR, READ, 0x6061, 0x00, 0x00000000);
 
     // Set velocity
     SetValue(LEFT_MOTOR, WRITE_4, 0x60FF, 0x00, (left_velocity_ & 0xFFFF));
-    receiveData(frame);
-
     SetValue(RIGHT_MOTOR, WRITE_4, 0x60FF, 0x00, (right_velocity_ & 0xFFFF));
-    receiveData(frame);
 
     // LogObjectDictionary();
 
