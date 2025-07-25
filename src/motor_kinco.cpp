@@ -218,9 +218,6 @@ void MotorKinco::StateThread() {
     // Position
     SetValue(LEFT_MOTOR, READ, 0x6064, 0x00, 0x00000000);
     SetValue(RIGHT_MOTOR, READ, 0x6064, 0x00, 0x00000000);
-    // Velocity
-    SetValue(LEFT_MOTOR, READ, 0x6062, 0x00, 0x00000000);
-    SetValue(RIGHT_MOTOR, READ, 0x6062, 0x00, 0x00000000);
     // State
     SetValue(LEFT_MOTOR, READ, 0x6041, 0x00, 0x00000000);
     SetValue(RIGHT_MOTOR, READ, 0x6041, 0x00, 0x00000000);
