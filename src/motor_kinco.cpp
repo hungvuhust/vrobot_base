@@ -214,8 +214,8 @@ void MotorKinco::StateThread() {
     SetValue(RIGHT_MOTOR, READ, 0x6061, 0x00, 0x00000000);
 
     // Set velocity
-    SetValue(LEFT_MOTOR, WRITE_4, 0x60FF, 0x00, (left_velocity_ & 0xFFFF));
-    SetValue(RIGHT_MOTOR, WRITE_4, 0x60FF, 0x00, (right_velocity_ & 0xFFFF));
+    SetValue(LEFT_MOTOR, WRITE_4, 0x60FF, 0x00, (left_velocity_ & 0xFFFFFFFF));
+    SetValue(RIGHT_MOTOR, WRITE_4, 0x60FF, 0x00, (right_velocity_ & 0xFFFFFFF));
 
     // LogObjectDictionary();
 
