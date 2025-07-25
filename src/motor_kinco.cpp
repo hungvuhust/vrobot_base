@@ -82,9 +82,9 @@ bool MotorKinco::Init() {
 }
 
 bool MotorKinco::SetVelocity(int32_t left_velocity, int32_t right_velocity) {
-  return SetValue(LEFT_MOTOR, WRITE_4, 0x60FF, 0x00, (left_velocity & 0xFFFF));
-  return SetValue(RIGHT_MOTOR, WRITE_4, 0x60FF, 0x00,
-                  (right_velocity & 0xFFFF));
+  left_velocity_  = left_velocity;
+  right_velocity_ = right_velocity;
+  return true;
 }
 
 bool MotorKinco::SetValue(uint8_t motor_id, uint8_t cmd, uint16_t index,
@@ -225,7 +225,11 @@ void MotorKinco::StateThread() {
     SetValue(LEFT_MOTOR, READ, 0x6061, 0x00, 0x00000000);
     SetValue(RIGHT_MOTOR, READ, 0x6061, 0x00, 0x00000000);
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    // Set velocity
+    SetValue(LEFT_MOTOR, WRITE_4, 0x60FF, 0x00, (left_velocity_ & 0xFFFF));
+    SetValue(RIGHT_MOTOR, WRITE_4, 0x60FF, 0x00, (right_velocity_ & 0xFFFF));
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(30));
   }
 }
 

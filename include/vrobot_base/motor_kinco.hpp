@@ -66,6 +66,10 @@ private:
   // Object Dictionary
   ObjectDictionary od_left_;
   ObjectDictionary od_right_;
+
+  // Velocity
+  int32_t left_velocity_{0};
+  int32_t right_velocity_{0};
 };
 
 } // namespace vrobot_base
