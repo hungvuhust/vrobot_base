@@ -60,8 +60,8 @@ private:
   // Kinematic parameters
   double      linear_{0.0};
   double      angular_{0.0};
-  double      wheel_radius_{0.075};
-  double      base_separation_{0.4};
+  double      wheel_radius_{0.08};
+  double      base_separation_{0.502};
   double      gear_ratio_{10};
   double      pos_to_rad_{0.00062831853 / gear_ratio_}; // 1 / 1591.54943092
   double      vel_to_rpm_{2730.666666667 * 60.0 / (2 * M_PI) * gear_ratio_};
