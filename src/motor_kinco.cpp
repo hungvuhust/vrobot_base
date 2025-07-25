@@ -36,12 +36,6 @@ MotorKinco::MotorKinco(const std::string &port, uint32_t baudrate, int timeout)
 MotorKinco::~MotorKinco() {
   is_active_ = false;
 
-  if (read_thread_) {
-    if (read_thread_->joinable()) {
-      read_thread_->join();
-    }
-  }
-
   if (state_thread_) {
     if (state_thread_->joinable()) {
       state_thread_->join();
@@ -71,8 +65,6 @@ bool MotorKinco::Init() {
     is_connected_ = true;
     is_active_    = true;
 
-    // read_thread_ = std::make_shared<std::thread>(&MotorKinco::ReadThread,
-    // this);
     state_thread_ =
         std::make_shared<std::thread>(&MotorKinco::StateThread, this);
   } catch (const std::exception &e) {
@@ -112,7 +104,7 @@ bool MotorKinco::SetValue(uint8_t motor_id, uint8_t cmd, uint16_t index,
     RCLCPP_ERROR(kLoggerMotorKinco, "Failed to send command");
     return false;
   }
-  return receiveData();
+  return ReceiveData();
 }
 
 bool MotorKinco::GetPosition(int32_t &left_position, int32_t &right_position) {
@@ -158,6 +150,7 @@ bool MotorKinco::SendCommand(const std::vector<uint8_t> &data) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     printData(data, "Send");
+
     serial_port_->write(data);
   } catch (const std::exception &e) {
     RCLCPP_ERROR(kLoggerMotorKinco, "Failed to send command: %s", e.what());
@@ -166,59 +159,7 @@ bool MotorKinco::SendCommand(const std::vector<uint8_t> &data) {
   return true;
 }
 
-void MotorKinco::ReadThread() {
-  while (is_active_) {
-    if (!is_connected_) {
-      RCLCPP_ERROR(kLoggerMotorKinco, "Motor is not connected");
-      return;
-    }
-    std::vector<uint8_t> buffer(10);
-
-    {
-      std::lock_guard<std::mutex> lock(mutex_);
-      if (serial_port_->available() >= 10) {
-        auto tmp = serial_port_->readline();
-        if (tmp.empty()) {
-          continue;
-        }
-        buffer.assign(tmp.begin(), tmp.end());
-        printData(buffer, "Received");
-
-        sdo_frame_t frame;
-        if (sdo_frame_t::parse(buffer.data(), frame)) {
-          RCLCPP_DEBUG(
-              kLoggerMotorKinco,
-              "Received frame[%02X]: %02X %02X %02X %02X %02X %02X %02X",
-              frame.id & 0xFF, (frame.index >> 8) & 0xFF, frame.index & 0xFF,
-              frame.subindex & 0xFF, frame.data & 0xFF,
-              (frame.data >> 8) & 0xFF, (frame.data >> 16) & 0xFF,
-              (frame.data >> 24) & 0xFF);
-          if (frame.cmd != 0x80) {
-            if (frame.id == 0x01) {
-              od_left_.update(frame.index, frame.subindex, frame.data);
-            } else if (frame.id == 0x02) {
-              od_right_.update(frame.index, frame.subindex, frame.data);
-            }
-          } else {
-            RCLCPP_ERROR(kLoggerMotorKinco,
-                         "ERROR[%02X]: %02X %02X %02X %02X %02X %02X %02X",
-                         frame.id & 0xFF, // ID
-                         (frame.index >> 8) & 0xFF, frame.index & 0xFF,
-                         frame.subindex & 0xFF, frame.data & 0xFF,
-                         (frame.data >> 8) & 0xFF, (frame.data >> 16) & 0xFF,
-                         (frame.data >> 24) & 0xFF);
-          }
-        } else {
-          RCLCPP_ERROR(kLoggerMotorKinco, "Failed to parse frame");
-        }
-      }
-    }
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(5));
-  }
-}
-
-bool MotorKinco::receiveData() {
+bool MotorKinco::ReceiveData() {
   sdo_frame_t          frame;
   std::vector<uint8_t> buffer(10);
   if (serial_port_) {
@@ -336,6 +277,9 @@ bool MotorKinco::SetControlWord(uint16_t control_word) {
 
 void MotorKinco::printData(const std::vector<uint8_t> &data,
                            std::string                 prefix) {
+  (void)data;
+  (void)prefix;
+#if 0
   std::string hex_string{""};
   for (const auto &byte : data) {
     char byte_hex[4]; // Allocate enough space for the formatted string
@@ -344,6 +288,7 @@ void MotorKinco::printData(const std::vector<uint8_t> &data,
   }
   RCLCPP_INFO(kLoggerMotorKinco, "%s[%ld]: %s", prefix.c_str(), data.size(),
               hex_string.c_str());
+#endif
 }
 
 uint8_t MotorKinco::CalculateChecksum(const std::vector<uint8_t> &data) {

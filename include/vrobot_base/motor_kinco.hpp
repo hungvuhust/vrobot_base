@@ -45,13 +45,11 @@ private:
   bool    SetValue(uint8_t motor_id, uint8_t cmd, uint16_t index,
                    uint8_t subindex = 0x00, int32_t value = 0x00000000);
   bool    SendCommand(const std::vector<uint8_t> &data);
-  bool    ReceiveResponse(std::vector<uint8_t> &response);
-  void    ReadThread();
   void    StateThread();
   void    printData(const std::vector<uint8_t> &data, std::string prefix = "");
   uint8_t CalculateChecksum(const std::vector<uint8_t> &data);
 
-  bool receiveData();
+  bool ReceiveData();
 
 private:
   // Serial port settings
@@ -62,7 +60,6 @@ private:
   std::unique_ptr<serial::Serial> serial_port_;
 
   // Thread for reading data
-  std::shared_ptr<std::thread> read_thread_;
   std::shared_ptr<std::thread> state_thread_;
   std::atomic<bool>            is_active_;
   std::mutex                   mutex_;
