@@ -218,6 +218,7 @@ bool MotorKinco::receiveData(sdo_frame_t &frame) {
   std::vector<uint8_t> buffer(10);
   if (serial_port_->available() >= 10) {
     serial_port_->read(buffer.data(), 10);
+    serial_port_->flush();
     printData(buffer, "Received");
     if (sdo_frame_t::parse(buffer.data(), frame)) {
       RCLCPP_DEBUG(kLoggerMotorKinco,
