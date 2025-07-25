@@ -165,14 +165,11 @@ void MotorKinco::ReadThread() {
       RCLCPP_ERROR(kLoggerMotorKinco, "Motor is not connected");
       return;
     }
-
-    if (serial_port_) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (serial_port_->available() >= 10) {
       std::vector<uint8_t> buffer(10);
 
-      {
-        std::lock_guard<std::mutex> lock(mutex_);
-        serial_port_->read(buffer.data(), 10);
-      }
+      serial_port_->read(buffer.data(), 10);
 
       printData(buffer, "Received");
 
