@@ -125,7 +125,6 @@ void DiffController::publishOdometry() {
 
   // Publish the odometry message
   odometry_publisher_->publish(odom_msg);
-  motor_kinco_->LogObjectDictionary();
   publishVelocityDebug();
 }
 
@@ -145,6 +144,8 @@ void DiffController::update() {
     RCLCPP_ERROR(logger_, "Motor is not connected");
     return;
   }
+
+  motor_kinco_->LogObjectDictionary();
 
   // Calculate the left and right velocities
   double left_velocity, right_velocity;
