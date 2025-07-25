@@ -169,8 +169,7 @@ void MotorKinco::ReadThread() {
 
     {
       std::lock_guard<std::mutex> lock(mutex_);
-      if (serial_port_->available() >= 10) {
-
+      while (serial_port_->available() >= 10) {
         serial_port_->read(buffer.data(), 10);
       }
     }
