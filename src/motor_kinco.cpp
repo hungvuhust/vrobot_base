@@ -219,17 +219,17 @@ void MotorKinco::StateThread() {
     SetValue(LEFT_MOTOR, READ, 0x6064, 0x00, 0x00000000);
     SetValue(RIGHT_MOTOR, READ, 0x6064, 0x00, 0x00000000);
     // // State
-    SetValue(LEFT_MOTOR, READ, 0x6041, 0x00, 0x00000000);
-    SetValue(RIGHT_MOTOR, READ, 0x6041, 0x00, 0x00000000);
-    // Operation mode
-    SetValue(LEFT_MOTOR, READ, 0x6061, 0x00, 0x00000000);
-    SetValue(RIGHT_MOTOR, READ, 0x6061, 0x00, 0x00000000);
+    // SetValue(LEFT_MOTOR, READ, 0x6041, 0x00, 0x00000000);
+    // SetValue(RIGHT_MOTOR, READ, 0x6041, 0x00, 0x00000000);
+    // // Operation mode
+    // SetValue(LEFT_MOTOR, READ, 0x6061, 0x00, 0x00000000);
+    // SetValue(RIGHT_MOTOR, READ, 0x6061, 0x00, 0x00000000);
 
     // Set velocity
     SetValue(LEFT_MOTOR, WRITE_4, 0x60FF, 0x00, (left_velocity_ & 0xFFFF));
     SetValue(RIGHT_MOTOR, WRITE_4, 0x60FF, 0x00, (right_velocity_ & 0xFFFF));
 
-    LogObjectDictionary();
+    // LogObjectDictionary();
 
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
   }
