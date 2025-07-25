@@ -175,7 +175,7 @@ void MotorKinco::ReadThread() {
         serial_port_->read(buffer.data(), 10);
       }
 
-      // printData(buffer, "Received");
+      printData(buffer, "Received");
 
       sdo_frame_t frame;
       if (sdo_frame_t::parse(buffer.data(), frame)) {
@@ -228,8 +228,6 @@ void MotorKinco::StateThread() {
     // Set velocity
     SetValue(LEFT_MOTOR, WRITE_4, 0x60FF, 0x00, (left_velocity_ & 0xFFFF));
     SetValue(RIGHT_MOTOR, WRITE_4, 0x60FF, 0x00, (right_velocity_ & 0xFFFF));
-
-    LogObjectDictionary();
 
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
   }
