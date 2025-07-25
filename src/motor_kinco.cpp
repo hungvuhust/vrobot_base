@@ -282,8 +282,8 @@ void MotorKinco::printData(const std::vector<uint8_t> &data,
     snprintf(byte_hex, sizeof(byte_hex), "%02X ", byte & 0xFF);
     hex_string += byte_hex;
   }
-  RCLCPP_INFO(kLoggerMotorKinco, "%s[%ld]: %s", prefix.c_str(),
-              hex_string.size(), hex_string.c_str());
+  RCLCPP_INFO(kLoggerMotorKinco, "%s[%ld]: %s", prefix.c_str(), data.size(),
+              hex_string.c_str());
 }
 
 uint8_t MotorKinco::CalculateChecksum(const std::vector<uint8_t> &data) {
