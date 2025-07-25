@@ -28,7 +28,7 @@ DiffController::DiffController() : Node("diff_controller") {
   // Initialize odometry
   odometry_.setWheelParams(base_separation_, wheel_radius_, wheel_radius_);
   odometry_.resetOdometry();
-  odometry_.setVelocityRollingWindowSize(1);
+  odometry_.setVelocityRollingWindowSize(5);
 
   // Set the initial timestamp
   last_cmd_vel_time_ = this->now();
@@ -123,7 +123,7 @@ void DiffController::publishOdometry() {
 
   // Publish the odometry message
   odometry_publisher_->publish(odom_msg);
-  publishVelocityDebug();
+  // publishVelocityDebug();
 }
 
 void DiffController::update() {
