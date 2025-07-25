@@ -229,6 +229,8 @@ void MotorKinco::StateThread() {
     SetValue(LEFT_MOTOR, WRITE_4, 0x60FF, 0x00, (left_velocity_ & 0xFFFF));
     SetValue(RIGHT_MOTOR, WRITE_4, 0x60FF, 0x00, (right_velocity_ & 0xFFFF));
 
+    LogObjectDictionary();
+
     std::this_thread::sleep_for(std::chrono::milliseconds(30));
   }
 }
