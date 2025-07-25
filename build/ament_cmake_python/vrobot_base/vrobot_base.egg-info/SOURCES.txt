@@ -1,0 +1,8 @@
+setup.py
+vrobot_base/__init__.py
+vrobot_base.egg-info/PKG-INFO
+vrobot_base.egg-info/SOURCES.txt
+vrobot_base.egg-info/dependency_links.txt
+vrobot_base.egg-info/top_level.txt
+vrobot_base/srv/__init__.py
+vrobot_base/srv/_set_pid.py

@@ -1,0 +1,6 @@
+{
+  "package_name": "vrobot_base",
+  "non_idl_tuples": [
+    "/home/rtc/Documents/code/vrobot_base:srv/SetPID.srv"
+  ]
+}

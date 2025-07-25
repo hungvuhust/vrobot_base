@@ -1,0 +1,242 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-61a49f695844eee41a78.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18
+					]
+				},
+				{
+					"build" : "vrobot_base__py",
+					"jsonFile" : "directory-vrobot_base__py-Debug-aff9d20bc7a9cf29b2ce.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "build/vrobot_base__py",
+					"targetIndexes" : 
+					[
+						5
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "vrobot_base",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_build_vrobot_base_egg::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_build_vrobot_base_egg-Debug-1855fd03e2a14c334bb5.json",
+					"name" : "ament_cmake_python_build_vrobot_base_egg",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_copy_vrobot_base::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_copy_vrobot_base-Debug-a8f511e5cfa9c088478c.json",
+					"name" : "ament_cmake_python_copy_vrobot_base",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-Debug-5b0b0a09ae1e99d3cc9f.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vrobot_base::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vrobot_base-Debug-af62fe152b963f3974ef.json",
+					"name" : "vrobot_base",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vrobot_base__cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vrobot_base__cpp-Debug-15a4928bfc3d998a10da.json",
+					"name" : "vrobot_base__cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "vrobot_base__py::@0bf35b12c62c25dcfb46",
+					"jsonFile" : "target-vrobot_base__py-Debug-a4d3054e654153b75d0c.json",
+					"name" : "vrobot_base__py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vrobot_base__rosidl_generator_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vrobot_base__rosidl_generator_c-Debug-f2e05945964fc03409ca.json",
+					"name" : "vrobot_base__rosidl_generator_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vrobot_base__rosidl_generator_py::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vrobot_base__rosidl_generator_py-Debug-2f49c460d434103c2457.json",
+					"name" : "vrobot_base__rosidl_generator_py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vrobot_base__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vrobot_base__rosidl_typesupport_c-Debug-79b9fb37b2d41556359d.json",
+					"name" : "vrobot_base__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vrobot_base__rosidl_typesupport_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vrobot_base__rosidl_typesupport_c__pyext-Debug-1361421e23985c816c8d.json",
+					"name" : "vrobot_base__rosidl_typesupport_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vrobot_base__rosidl_typesupport_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vrobot_base__rosidl_typesupport_cpp-Debug-2a1c487e628e0d0918f1.json",
+					"name" : "vrobot_base__rosidl_typesupport_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vrobot_base__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vrobot_base__rosidl_typesupport_fastrtps_c-Debug-cad5bf3827270074dc27.json",
+					"name" : "vrobot_base__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vrobot_base__rosidl_typesupport_fastrtps_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vrobot_base__rosidl_typesupport_fastrtps_c__pyext-Debug-845351b53c5541fc0be9.json",
+					"name" : "vrobot_base__rosidl_typesupport_fastrtps_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vrobot_base__rosidl_typesupport_fastrtps_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vrobot_base__rosidl_typesupport_fastrtps_cpp-Debug-76ed6410f282110fe09c.json",
+					"name" : "vrobot_base__rosidl_typesupport_fastrtps_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vrobot_base__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vrobot_base__rosidl_typesupport_introspection_c-Debug-c050b3e424590e9da7a9.json",
+					"name" : "vrobot_base__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vrobot_base__rosidl_typesupport_introspection_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vrobot_base__rosidl_typesupport_introspection_c__pyext-Debug-7e4ea2ddff14e14a32eb.json",
+					"name" : "vrobot_base__rosidl_typesupport_introspection_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vrobot_base__rosidl_typesupport_introspection_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vrobot_base__rosidl_typesupport_introspection_cpp-Debug-ac214bc399a6f8845277.json",
+					"name" : "vrobot_base__rosidl_typesupport_introspection_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vrobot_base_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vrobot_base_node-Debug-55ba7d4b50ebe002f22f.json",
+					"name" : "vrobot_base_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vrobot_base_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vrobot_base_uninstall-Debug-b44c245ceeaad6ff68a3.json",
+					"name" : "vrobot_base_uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/rtc/Documents/code/vrobot_base/build",
+		"source" : "/home/rtc/Documents/code/vrobot_base"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}
