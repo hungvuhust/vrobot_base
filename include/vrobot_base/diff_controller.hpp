@@ -58,16 +58,13 @@ private:
   rclcpp::Logger logger_ = rclcpp::get_logger("diff_controller");
 
   // Kinematic parameters
-  double rpm_from_rad_per_s_{1.0 / (2 * M_PI / 60.0)};
-  double linear_{0.0};
-  double angular_{0.0};
-  double wheel_radius_{0.05};
-  double base_separation_{0.31};
-  double encoder_ratio_left_{0.00062831853};
-  double encoder_ratio_right_{0.00062831853};
-  double gear_ratio_left_{2730.666666667 * rpm_from_rad_per_s_};
-  double gear_ratio_right_{2730.666666667 * rpm_from_rad_per_s_};
-
+  double      linear_{0.0};
+  double      angular_{0.0};
+  double      wheel_radius_{0.075};
+  double      base_separation_{0.4};
+  double      gear_ratio_{10};
+  double      pos_to_rad_{0.00062831853 / gear_ratio_}; // 1 / 1591.54943092
+  double      vel_to_rpm_{2730.666666667 * 60.0 / (2 * M_PI) * gear_ratio_};
   std::string base_frame_id_ = "base_link";
   std::string odom_frame_id_ = "odom";
 

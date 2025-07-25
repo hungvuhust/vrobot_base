@@ -57,16 +57,14 @@ void DiffController::InitPubSub() {
 void DiffController::InitParameters() {
   // Declare parameters
   this->declare_parameter("wheel_radius", wheel_radius_);
-  this->declare_parameter("gear_radio_left", gear_ratio_left_);
-  this->declare_parameter("gear_radio_right", gear_ratio_right_);
+  this->declare_parameter("gear_ratio", gear_ratio_);
   this->declare_parameter("base_separation", base_separation_);
   this->declare_parameter("serial_port", serial_port_);
   this->declare_parameter("baudrate", baudrate_);
 
   // Get parameters
   this->get_parameter("wheel_radius", wheel_radius_);
-  this->get_parameter("gear_radio_left", gear_ratio_left_);
-  this->get_parameter("gear_radio_right", gear_ratio_right_);
+  this->get_parameter("gear_ratio", gear_ratio_);
   this->get_parameter("base_separation", base_separation_);
   this->get_parameter("serial_port", serial_port_);
   this->get_parameter("baudrate", baudrate_);
@@ -75,8 +73,7 @@ void DiffController::InitParameters() {
   RCLCPP_INFO(logger_, "Base separation: %f", base_separation_);
   RCLCPP_INFO(logger_, "Serial port: %s", serial_port_.c_str());
   RCLCPP_INFO(logger_, "Baudrate: %d", baudrate_);
-  RCLCPP_INFO(logger_, "Gear left: %f", gear_ratio_left_);
-  RCLCPP_INFO(logger_, "Gear right: %f", gear_ratio_right_);
+  RCLCPP_INFO(logger_, "Gear ratio: %f", gear_ratio_);
 
   RCLCPP_INFO(logger_, "Parameters initialized successfully.");
 }
@@ -145,15 +142,15 @@ void DiffController::update() {
     return;
   }
 
-  motor_kinco_->LogObjectDictionary();
+  // motor_kinco_->LogObjectDictionary();
 
   // Calculate the left and right velocities
   double left_velocity, right_velocity;
   InvKinematics(linear_, angular_, left_velocity, right_velocity);
 
   RCLCPP_DEBUG(logger_, "L: %f, R: %f", left_velocity, right_velocity);
-  int16_t left_velocity_cmd  = int16_t(left_velocity * gear_ratio_left_);
-  int16_t right_velocity_cmd = int16_t(right_velocity * gear_ratio_right_);
+  int32_t left_velocity_cmd  = int32_t(left_velocity * vel_to_rpm_);
+  int32_t right_velocity_cmd = int32_t(right_velocity * vel_to_rpm_);
 
   RCLCPP_DEBUG(logger_, "Left velocity: %d, Right velocity: %d",
                left_velocity_cmd, right_velocity_cmd);
@@ -172,9 +169,9 @@ void DiffController::update() {
     return;
   }
   double left_position =
-      static_cast<double>(left_position_feedback) * encoder_ratio_left_;
+      static_cast<double>(left_position_feedback) * pos_to_rad_;
   double right_position =
-      static_cast<double>(right_position_feedback) * encoder_ratio_right_;
+      static_cast<double>(right_position_feedback) * pos_to_rad_;
   if (odometry_.update(right_position, left_position, this->now())) {
     publishOdometry();
   }
