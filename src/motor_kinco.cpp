@@ -167,8 +167,12 @@ void MotorKinco::ReadThread() {
 
       sdo_frame_t frame;
       if (sdo_frame_t::parse(buffer.data(), frame)) {
-        RCLCPP_INFO(kLoggerMotorKinco, "Received frame: %02X",
-                    frame.cmd & 0xFF);
+        RCLCPP_INFO(kLoggerMotorKinco,
+                    "Received frame[%02X]: %02X %02X %02X %02X %02X %02X %02X",
+                    frame.id & 0xFF, (frame.index >> 8) & 0xFF,
+                    frame.index & 0xFF, frame.subindex & 0xFF,
+                    frame.data & 0xFF, (frame.data >> 8) & 0xFF,
+                    (frame.data >> 16) & 0xFF, (frame.data >> 24) & 0xFF);
         if (frame.cmd != 0x80) {
           if (frame.id == 0x01) {
             od_left_.update(frame.index, frame.subindex, frame.data);
@@ -252,6 +256,17 @@ bool MotorKinco::GetState(uint8_t &state_left, uint8_t &state_right) {
     state_right = static_cast<uint8_t>(state_right_tmp & 0xFF);
   } catch (const std::exception &e) {
     RCLCPP_ERROR(kLoggerMotorKinco, "Failed to get state: %s", e.what());
+    return false;
+  }
+  return true;
+}
+
+bool MotorKinco::SetControlWord(uint16_t control_word) {
+  try {
+    SetValue(LEFT_MOTOR, WRITE_2, 0x6040, 0x00, control_word);
+    SetValue(RIGHT_MOTOR, WRITE_2, 0x6040, 0x00, control_word);
+  } catch (const std::exception &e) {
+    RCLCPP_ERROR(kLoggerMotorKinco, "Failed to set control word: %s", e.what());
     return false;
   }
   return true;

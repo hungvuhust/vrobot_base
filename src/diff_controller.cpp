@@ -19,6 +19,11 @@ DiffController::DiffController() : Node("diff_controller") {
     throw std::runtime_error("Failed to initialize motor");
   }
 
+  motor_kinco_->SetMode(static_cast<uint8_t>(-3));
+  motor_kinco_->SetControlWord(0x0006);
+  motor_kinco_->SetControlWord(0x0007);
+  motor_kinco_->SetControlWord(0x000F);
+
   // Initialize odometry
   odometry_.setWheelParams(base_separation_, wheel_radius_, wheel_radius_);
   odometry_.resetOdometry();

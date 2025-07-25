@@ -32,6 +32,7 @@ public:
   bool SetVelocity(int32_t left_velocity, int32_t right_velocity);
   bool GetPosition(int32_t &left_position, int32_t &right_position);
   bool SetMode(uint8_t mode);
+  bool SetControlWord(uint16_t control_word);
   bool GetMode(uint8_t &mode_left, uint8_t &mode_right);
   bool GetState(uint8_t &state_left, uint8_t &state_right);
 
