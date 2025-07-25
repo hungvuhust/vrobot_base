@@ -1,4 +1,0 @@
-srv/SetPID.idl
-srv/SetPID.srv
-srv/SetPID_Request.msg
-srv/SetPID_Response.msg
