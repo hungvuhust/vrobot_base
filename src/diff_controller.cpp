@@ -142,7 +142,7 @@ void DiffController::update() {
     return;
   }
 
-  // motor_kinco_->LogObjectDictionary();
+  motor_kinco_->LogObjectDictionary();
 
   // Calculate the left and right velocities
   double left_velocity, right_velocity;
