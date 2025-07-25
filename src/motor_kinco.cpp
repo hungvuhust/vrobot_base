@@ -173,13 +173,13 @@ bool MotorKinco::ReceiveData() {
                    frame.index & 0xFF, frame.subindex & 0xFF, frame.data & 0xFF,
                    (frame.data >> 8) & 0xFF, (frame.data >> 16) & 0xFF,
                    (frame.data >> 24) & 0xFF);
-      if (frame.cmd != 0x80) {
+      if (frame.cmd == 0x60) {
         if (frame.id == 0x01) {
           od_left_.update(frame.index, frame.subindex, frame.data);
         } else if (frame.id == 0x02) {
           od_right_.update(frame.index, frame.subindex, frame.data);
         }
-      } else {
+      } else if (frame.cmd == 0x80) {
         RCLCPP_ERROR(kLoggerMotorKinco,
                      "ERROR[%02X]: %02X %02X %02X %02X %02X %02X %02X",
                      frame.id & 0xFF, // ID
