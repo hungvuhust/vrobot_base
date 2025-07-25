@@ -163,7 +163,7 @@ void MotorKinco::ReadThread() {
 
     if (serial_port_) {
       std::vector<uint8_t> buffer(10);
-      serial_port_->read(buffer.data(), buffer.size());
+      serial_port_->read(buffer.data(), 10);
 
       printData(buffer, "Received");
 
