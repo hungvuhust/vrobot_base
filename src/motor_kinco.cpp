@@ -149,10 +149,9 @@ bool MotorKinco::SendCommand(const std::vector<uint8_t> &data) {
     return false;
   }
 
-  std::lock_guard<std::mutex> lock(mutex_);
   try {
+    std::lock_guard<std::mutex> lock(mutex_);
     serial_port_->write(data);
-
   } catch (const std::exception &e) {
     RCLCPP_ERROR(kLoggerMotorKinco, "Failed to send command: %s", e.what());
     return false;
@@ -218,12 +217,12 @@ void MotorKinco::StateThread() {
     // Position
     SetValue(LEFT_MOTOR, READ, 0x6064, 0x00, 0x00000000);
     SetValue(RIGHT_MOTOR, READ, 0x6064, 0x00, 0x00000000);
-    // State
-    SetValue(LEFT_MOTOR, READ, 0x6041, 0x00, 0x00000000);
-    SetValue(RIGHT_MOTOR, READ, 0x6041, 0x00, 0x00000000);
-    // Operation mode
-    SetValue(LEFT_MOTOR, READ, 0x6061, 0x00, 0x00000000);
-    SetValue(RIGHT_MOTOR, READ, 0x6061, 0x00, 0x00000000);
+    // // State
+    // SetValue(LEFT_MOTOR, READ, 0x6041, 0x00, 0x00000000);
+    // SetValue(RIGHT_MOTOR, READ, 0x6041, 0x00, 0x00000000);
+    // // Operation mode
+    // SetValue(LEFT_MOTOR, READ, 0x6061, 0x00, 0x00000000);
+    // SetValue(RIGHT_MOTOR, READ, 0x6061, 0x00, 0x00000000);
 
     // Set velocity
     SetValue(LEFT_MOTOR, WRITE_4, 0x60FF, 0x00, (left_velocity_ & 0xFFFF));
