@@ -35,6 +35,7 @@ public:
   bool SetControlWord(uint16_t control_word);
   bool GetMode(uint8_t &mode_left, uint8_t &mode_right);
   bool GetState(uint8_t &state_left, uint8_t &state_right);
+  bool ResetPosition();
 
   void LogObjectDictionary();
 

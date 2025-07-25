@@ -23,6 +23,7 @@ DiffController::DiffController() : Node("diff_controller") {
   motor_kinco_->SetControlWord(0x0006);
   motor_kinco_->SetControlWord(0x0007);
   motor_kinco_->SetControlWord(0x000F);
+  motor_kinco_->ResetPosition();
 
   // Initialize odometry
   odometry_.setWheelParams(base_separation_, wheel_radius_, wheel_radius_);

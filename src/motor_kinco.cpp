@@ -264,6 +264,12 @@ bool MotorKinco::GetState(uint8_t &state_left, uint8_t &state_right) {
   return true;
 }
 
+bool MotorKinco::ResetPosition() {
+  SetValue(LEFT_MOTOR, WRITE_4, 0x6064, 0x00, 0x00000000);
+  SetValue(RIGHT_MOTOR, WRITE_4, 0x6064, 0x00, 0x00000000);
+  return true;
+}
+
 bool MotorKinco::SetControlWord(uint16_t control_word) {
   try {
     SetValue(LEFT_MOTOR, WRITE_2, 0x6040, 0x00, control_word);
