@@ -205,6 +205,9 @@ void MotorKinco::StateThread() {
     // Position
     SetValue(LEFT_MOTOR, READ, 0x6064);
     SetValue(RIGHT_MOTOR, READ, 0x6064);
+    // Velocity
+    SetValue(LEFT_MOTOR, READ, 0x606C);
+    SetValue(RIGHT_MOTOR, READ, 0x606C);
     // State
     SetValue(LEFT_MOTOR, READ, 0x6041);
     SetValue(RIGHT_MOTOR, READ, 0x6041);
@@ -215,7 +218,7 @@ void MotorKinco::StateThread() {
     SetValue(LEFT_MOTOR, WRITE_4, 0x60FF, 0x00, (left_velocity_ & 0xFFFFFFFF));
     SetValue(RIGHT_MOTOR, WRITE_4, 0x60FF, 0x00, (right_velocity_ & 0xFFFFFFF));
 
-    // LogObjectDictionary();
+    LogObjectDictionary();
 
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
   }
