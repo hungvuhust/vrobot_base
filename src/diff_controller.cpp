@@ -150,7 +150,7 @@ void DiffController::update() {
   InvKinematics(linear_, angular_, left_velocity, right_velocity);
 
   RCLCPP_DEBUG(logger_, "L: %f, R: %f", left_velocity, right_velocity);
-  int32_t left_velocity_cmd  = int32_t(-left_velocity * vel_to_rpm_);
+  int32_t left_velocity_cmd  = int32_t(left_velocity * vel_to_rpm_);
   int32_t right_velocity_cmd = int32_t(right_velocity * vel_to_rpm_);
 
   RCLCPP_DEBUG(logger_, "Left velocity: %d, Right velocity: %d",
@@ -170,7 +170,7 @@ void DiffController::update() {
     return;
   }
   double left_position =
-      static_cast<double>(-left_position_feedback) * pos_to_rad_;
+      static_cast<double>(left_position_feedback) * pos_to_rad_;
   double right_position =
       static_cast<double>(right_position_feedback) * pos_to_rad_;
   if (odometry_.update(right_position, left_position, this->now())) {
