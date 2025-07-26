@@ -17,8 +17,8 @@ const uint8_t ETX = 0x3B;
 const size_t LEN_GET_POSITION = 12;
 
 typedef enum MOTOR_ID {
-  LEFT_MOTOR  = 0x01,
-  RIGHT_MOTOR = 0x02,
+  LEFT_MOTOR  = 0x02,
+  RIGHT_MOTOR = 0x01,
 } motor_id_t;
 
 typedef enum COMMAND_REQUEST {
