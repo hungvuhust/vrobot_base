@@ -170,7 +170,7 @@ void DiffController::update() {
     return;
   }
   double left_position =
-      static_cast<double>(-left_position_feedback) * pos_to_rad_;
+      static_cast<double>(left_position_feedback) * pos_to_rad_;
   double right_position =
       static_cast<double>(right_position_feedback) * pos_to_rad_;
   if (odometry_.update(right_position, left_position, this->now())) {
