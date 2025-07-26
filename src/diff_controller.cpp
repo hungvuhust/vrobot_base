@@ -153,7 +153,7 @@ void DiffController::update() {
   int32_t left_velocity_cmd  = int32_t(-left_velocity * vel_to_rpm_);
   int32_t right_velocity_cmd = int32_t(right_velocity * vel_to_rpm_);
 
-  RCLCPP_INFO(logger_, "Left velocity: %d, Right velocity: %d",
+  RCLCPP_DEBUG(logger_, "Left velocity: %d, Right velocity: %d",
                left_velocity_cmd, right_velocity_cmd);
 
   // Set the motor velocities
