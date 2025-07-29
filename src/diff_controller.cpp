@@ -92,8 +92,8 @@ void DiffController::cmdVelCallback(const Twist::SharedPtr msg) {
 void DiffController::InvKinematics(double linear, double angular,
                                    double &left_velocity,
                                    double &right_velocity) {
-  left_velocity  = (linear + angular * base_separation_ / 2.0) / wheel_radius_;
-  right_velocity = (linear - angular * base_separation_ / 2.0) / wheel_radius_;
+  left_velocity  = (linear - angular * base_separation_ / 2.0) / wheel_radius_;
+  right_velocity = (linear + angular * base_separation_ / 2.0) / wheel_radius_;
 }
 
 void DiffController::publishOdometry() {
@@ -150,7 +150,7 @@ void DiffController::update() {
   InvKinematics(linear_, angular_, left_velocity, right_velocity);
 
   // RCLCPP_DEBUG(logger_, "L: %f, R: %f", left_velocity, right_velocity);
-  int32_t left_velocity_cmd  = int32_t(-left_velocity * vel_to_rpm_);
+  int32_t left_velocity_cmd  = int32_t(left_velocity * vel_to_rpm_);
   int32_t right_velocity_cmd = int32_t(right_velocity * vel_to_rpm_);
 
   RCLCPP_DEBUG(logger_, "Left velocity: %d, Right velocity: %d",
@@ -172,8 +172,8 @@ void DiffController::update() {
   double left_position =
       static_cast<double>(left_position_feedback) * pos_to_rad_;
   double right_position =
-      - static_cast<double>(right_position_feedback) * pos_to_rad_;
-  if (odometry_.update(right_position, left_position, this->now())) {
+      static_cast<double>(right_position_feedback) * pos_to_rad_;
+  if (odometry_.update(left_position, right_position, this->now())) {
     publishOdometry();
   }
 }
