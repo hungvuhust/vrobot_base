@@ -174,9 +174,9 @@ bool MotorKinco::ReceiveData() {
                    (frame.data >> 8) & 0xFF, (frame.data >> 16) & 0xFF,
                    (frame.data >> 24) & 0xFF);
       if (frame.cmd == 0x4f or frame.cmd == 0x4b or frame.cmd == 0x43) {
-        if (frame.id == 0x01) {
+        if (frame.id == LEFT_MOTOR) {
           od_left_.update(frame.index, frame.subindex, frame.data);
-        } else if (frame.id == 0x02) {
+        } else if (frame.id == RIGHT_MOTOR) {
           od_right_.update(frame.index, frame.subindex, frame.data);
         }
       } else if (frame.cmd == 0x80) {
